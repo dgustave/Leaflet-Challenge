@@ -14,21 +14,28 @@ function createFeatures(earthquakeData) {
   // Give each feature a popup describing the place and time of the earthquake
   function onEachFeature(feature, layer) {
     layer.bindPopup("<h3>" + feature.properties.place +
-      "</h3><hr><p>" + new Date(feature.properties.time) +"</p>" + "<br>" + feature.properties.mag );
+      "</h3><hr><p>" + new Date(feature.properties.time) +"</p>" + "<br>" + "Magnitude:" + feature.properties.mag );
   }
 
-  function changeColor(magnitude){
-      if(magnitude > 3){
-          return "purple"
+    function changeColor(magnitude){
+        if(magnitude > 5){
+            return "#3b5998"
+        }
+      if(magnitude > 4){
+          return "#fe4a49"
+        }
+      else if(magnitude > 3){
+          return "#2ab7ca"
       }
       else if(magnitude > 2){
-          return "blue"
+        return "#fed766"
+      }
+      else if(magnitude > 1){
+        return "#f9f4f4"
       }
       else{
-          return "orange"
-
+          return "#ffffff"
       }
-
     }
 
   // Create a GeoJSON layer containing the features array on the earthquakeData object
@@ -37,7 +44,7 @@ function createFeatures(earthquakeData) {
     onEachFeature: onEachFeature,
     pointToLayer: function (feature, latlng) {
         var geojsonMarkerOptions = {
-            radius: feature.properties.mag * 5,
+            radius: feature.properties.mag * 6,
             fillColor: changeColor(feature.properties.mag),
             color: "#000",
             weight: 1,
@@ -96,27 +103,19 @@ function createMap(earthquakes) {
      var legend = L.control({ position: "bottomright" });
      legend.onAdd = function() {
        var div = L.DomUtil.create("div", "info legend");
-       var colors = ["orange", "blue", "purple"];
-       var 
+       var colors = ["#ffffff", "#f9f4f4", "#fed766", "#2ab7ca", "#fe4a49", "#3b5998"];
        var labels = [];
    
     //    Add min & max
-       var legendInfo = "<h1>Earthquake Magnitudes</h1>" +
-         "<div class=\"labels\">" +
-           "<div class=\"min\">" + "0 - 1" + "</div>" + "<br>" + 
-           "<div class=\"mid\">" + "1 - 2" + "</div>" + "<br>" + 
-           "<div class=\"max\">" + "3  + " + "</div>" 
-         "</div>";
+       var legendInfo = "<h1>Earthquake Magnitudes</h1>";
        div.innerHTML = legendInfo;
-    // unique Id for each bullet and append it:
-   
+    // use styles css and append colors for each bullet for the magnitudes:
        colors.forEach(function(color, index) {
-         labels.push("<li style=\"background-color: " + color + "\">" + index + "</li>" + "<br>");
+           mag = ["<div class=\"min\" style = 'position:absolute; left:80px;'>" + "0 - 1" + "</div>", "<div class=\"mid\" style = 'position:absolute; left:80px;'>" + "1 - 2" + "</div>", 
+           "<div class=\"mid\" style = 'position:absolute; left:80px;'>" + "2 - 3" + "</div>", "<div class=\"mid\" style = 'position:absolute; left:80px;'>" + "3 - 4" + "</div>", 
+           "<div class=\"max\" style = 'position:absolute; left:80px;'>" + "4 - 5" + "</div>", "<div class=\"max\" style = 'position:absolute; left:80px;'>" + "5  + " + "</div>"  ] 
+         labels.push("<li style=\"background-color: " + color + "\">" + "<div class=\"labels\">" + mag[index] +   "</div>" + "</li>" + "<br>");
        });
-
-    //    indexs.forEach(function(index){
-    //     labels.push("<li style=\"background-color: " + index + "\"></li>" + "<br>");
-    //    });
    
        div.innerHTML += "<ul>" + labels.join("") + "</ul>" ;
        return div;
