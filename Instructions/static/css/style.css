@@ -35,10 +35,18 @@ html {
 }
 
 .legend .min {
-  float: left;
-  padding-bottom: 5px;
+  float: right;
+  display: block;
+  /* padding-bottom: 5px; */
+}
+
+.legend .mid {
+  float: right;
+  display: block;
+  /* padding-bottom: 5px; */
 }
 
 .legend .max {
+  display: block;
   float: right;
 }

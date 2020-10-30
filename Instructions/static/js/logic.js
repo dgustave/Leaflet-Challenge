@@ -96,29 +96,33 @@ function createMap(earthquakes) {
      var legend = L.control({ position: "bottomright" });
      legend.onAdd = function() {
        var div = L.DomUtil.create("div", "info legend");
-       var colors = ["purple", "blue", "orange"];
+       var colors = ["orange", "blue", "purple"];
+       var 
        var labels = [];
    
-       // Add min & max
-       var legendInfo = "<h1>Median Income</h1>" +
+    //    Add min & max
+       var legendInfo = "<h1>Earthquake Magnitudes</h1>" +
          "<div class=\"labels\">" +
-           "<div class=\"min\">" + "0" + "</div>" +
-           "<div class=\"max\">" + "3"+ "</div>" +
+           "<div class=\"min\">" + "0 - 1" + "</div>" + "<br>" + 
+           "<div class=\"mid\">" + "1 - 2" + "</div>" + "<br>" + 
+           "<div class=\"max\">" + "3  + " + "</div>" 
          "</div>";
-   
        div.innerHTML = legendInfo;
+    // unique Id for each bullet and append it:
    
        colors.forEach(function(color, index) {
-         labels.push("<li style=\"background-color: " + color + "\"></li>");
+         labels.push("<li style=\"background-color: " + color + "\">" + index + "</li>" + "<br>");
        });
+
+    //    indexs.forEach(function(index){
+    //     labels.push("<li style=\"background-color: " + index + "\"></li>" + "<br>");
+    //    });
    
-       div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+       div.innerHTML += "<ul>" + labels.join("") + "</ul>" ;
        return div;
      };
-   
      // Adding legend to the map
      legend.addTo(myMap);
-
   // Create a layer control
   // Pass in our baseMaps and overlayMaps
   // Add the layer control to the map
